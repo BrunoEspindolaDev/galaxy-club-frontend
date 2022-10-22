@@ -5,7 +5,7 @@ import theme from "theme";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ChakraProvider theme={theme}>
         <Router />
         <CSSReset />
