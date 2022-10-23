@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { color, extendTheme } from "@chakra-ui/react";
 
 import "@fontsource/poppins/100.css";
 import "@fontsource/poppins/200.css";
@@ -37,6 +37,20 @@ const theme = extendTheme({
       700: "#3c1869",
       800: "#270d40",
       900: "#12041b",
+    },
+  },
+  components: {
+    Button: {
+      variants: {
+        solid: {
+          _hover: {
+            bg: "whiteAlpha.100",
+          },
+          _active: {
+            bg: "whiteAlpha.100",
+          },
+        },
+      },
     },
   },
 });

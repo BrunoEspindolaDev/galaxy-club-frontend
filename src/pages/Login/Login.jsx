@@ -70,6 +70,7 @@ const Login = () => {
           <Button
             mt={6}
             variant="link"
+            fontWeight="normal"
             alignSelf="flex-start"
             onClick={() => navigate("/register")}
           >
