@@ -67,16 +67,7 @@ const Login = () => {
             </InputLeftElement>
             <Input placeholder="Senha" />
           </InputGroup>
-          <Button
-            mt={6}
-            variant="link"
-            fontWeight="normal"
-            alignSelf="flex-start"
-            onClick={() => navigate("/register")}
-          >
-            Não é sócio, cadastrar-se
-          </Button>
-          <Button colorScheme="purple" bg="#5644d3" color="white" onClick={() => navigate("/home")}>
+          <Button colorScheme="purple" bg="#5644d3" color="white" mt={3} onClick={() => navigate("/home")}>
             Entrar
           </Button>
         </chakra.form>
