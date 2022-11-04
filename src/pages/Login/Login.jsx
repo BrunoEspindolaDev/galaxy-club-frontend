@@ -1,8 +1,11 @@
+import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import spaceImage from "assets/images/space.jpg";
 import { ReactComponent as Logo } from "assets/svg/logo.svg";
-import { FiAtSign, FiKey } from "react-icons/fi";
+import { FiKey, FiUser } from "react-icons/fi";
 import {
+  useToast,
   chakra,
   Flex,
   Heading,
@@ -17,6 +20,31 @@ import {
 
 const Login = () => {
   const navigate = useNavigate();
+  const toast = useToast();
+
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:1337/api/auth/local", {
+        identifier,
+        password,
+      })
+      .then(({ data }) => {
+        localStorage.setItem("token", data.jwt);
+        localStorage.setItem("user", data.user);
+        navigate("/home");
+      })
+      .catch(() => {
+        toast({
+          status: "error",
+          description: "Credênciais incorretas!",
+          duration: 500,
+        });
+      });
+  };
 
   return (
     <Flex minH="100vh" justify="center" bg="#1C1C1F">
@@ -54,20 +82,29 @@ const Login = () => {
         <Heading fontSize="2xl" color="white" textAlign={["center", "center", "start"]} mb={6}>
           Login
         </Heading>
-        <chakra.form display="flex" flexDirection="column" rowGap={4}>
+        <chakra.form display="flex" flexDirection="column" onSubmit={handleLogin} rowGap={4}>
           <InputGroup variant="filled">
             <InputLeftElement>
-              <Icon as={FiAtSign} w="18px" h="18px" color="white" />
+              <Icon as={FiUser} w="18px" h="18px" color="white" />
             </InputLeftElement>
-            <Input placeholder="Email" />
+            <Input
+              placeholder="Usuário"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+            />
           </InputGroup>
           <InputGroup variant="filled">
             <InputLeftElement>
               <Icon as={FiKey} w="18px" h="18px" color="white" />
             </InputLeftElement>
-            <Input placeholder="Senha" />
+            <Input
+              type="password"
+              value={password}
+              placeholder="Senha"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </InputGroup>
-          <Button colorScheme="purple" bg="#5644d3" color="white" mt={3} onClick={() => navigate("/home")}>
+          <Button type="submit" colorScheme="purple" bg="#5644d3" color="white" mt={3}>
             Entrar
           </Button>
         </chakra.form>

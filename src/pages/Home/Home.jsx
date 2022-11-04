@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
   Heading,
@@ -15,8 +17,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import Navbar from "components/Navbar";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 const Items = ({ title, items }) => {
   const navigate = useNavigate();
@@ -81,10 +81,16 @@ const Home = () => {
         });
       };
 
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
       axios
         .all([
-          axios.get("http://localhost:1337/api/places"),
-          axios.get("http://localhost:1337/api/equipaments"),
+          axios.get("http://localhost:1337/api/places", axiosConfig),
+          axios.get("http://localhost:1337/api/equipaments", axiosConfig),
         ])
         .then(
           axios.spread((placesRes, equipamentsRes) => {

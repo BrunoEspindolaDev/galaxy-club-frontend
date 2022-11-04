@@ -24,6 +24,11 @@ const Navbar = () => {
   const isReservationsActive = pathname.includes("/reservations");
   const isProfileActive = pathname.includes("/profile");
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <Flex as="header" h="65px" direction="column" bg="#1C1C1F" px={[5, 10]}>
       <Flex
@@ -42,10 +47,16 @@ const Navbar = () => {
         </Flex>
         {!isMobile && (
           <ButtonGroup>
-            <Button bg="transparent" isActive={isHomeActive} onClick={() => navigate("/home")}>
+            <Button
+              size="sm"
+              bg="transparent"
+              isActive={isHomeActive}
+              onClick={() => navigate("/home")}
+            >
               Início
             </Button>
             <Button
+              size="sm"
               bg="transparent"
               isActive={isReservationsActive}
               onClick={() => navigate("/reservations")}
@@ -53,11 +64,15 @@ const Navbar = () => {
               Reservas
             </Button>
             <Button
+              size="sm"
               bg="transparent"
               isActive={isProfileActive}
               onClick={() => navigate("/profile")}
             >
               Perfil
+            </Button>
+            <Button size="sm" bg="transparent" onClick={handleLogout}>
+              Sair
             </Button>
           </ButtonGroup>
         )}

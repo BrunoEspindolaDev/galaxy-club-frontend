@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import PrivateElement from "components/PrivateElement";
 
 import Login from "pages/Login";
 import Home from "pages/Home";
@@ -10,11 +11,39 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />}>
-        <Route path="reservation" element={<ModalReservaiton />} />
+      <Route
+        path="/home"
+        element={
+          <PrivateElement>
+            <Home />
+          </PrivateElement>
+        }
+      >
+        <Route
+          path="reservation"
+          element={
+            <PrivateElement>
+              <ModalReservaiton />
+            </PrivateElement>
+          }
+        />
       </Route>
-      <Route path="/reservations" element={<Reservations />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route
+        path="/reservations"
+        element={
+          <PrivateElement>
+            <Reservations />
+          </PrivateElement>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateElement>
+            <Profile />
+          </PrivateElement>
+        }
+      />
     </Routes>
   );
 };
