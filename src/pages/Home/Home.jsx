@@ -29,6 +29,12 @@ const Home = () => {
     if (!places && !equipaments) {
       setIsLoading(true);
 
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
       const handleError = () => {
         return toast({
           status: "error",
@@ -37,10 +43,12 @@ const Home = () => {
       };
 
       axios
-        .all([api.get("places?populate=*"), api.get("equipaments?populate=*")])
+        .all([
+          api.get("places?populate=*", axiosConfig),
+          api.get("equipaments?populate=*", axiosConfig),
+        ])
         .then(
           axios.spread((placesRes, equipamentsRes) => {
-            console.log("Res: ", placesRes);
             setPlaces(placesRes.data.data);
             setEquipaments(equipamentsRes.data.data);
           })
