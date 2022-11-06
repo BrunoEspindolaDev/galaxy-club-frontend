@@ -1,8 +1,9 @@
 import axios from "axios";
 import { forwardRef, useState } from "react";
 import DatePicker from "react-datepicker";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FiMinus, FiPlus } from "react-icons/fi";
+
 import {
   useToast,
   Modal,
@@ -32,6 +33,8 @@ const ModalReservaiton = () => {
   const [disabledDateRanges, setDisableDateRanges] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+
+  const { id: itemId } = useParams();
 
   const navigate = useNavigate();
   const toast = useToast();
@@ -80,7 +83,10 @@ const ModalReservaiton = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:1337/api/reservations", axiosConfig)
+      .get(
+        `http://localhost:1337/api/reservations?filters[item][place][id][$eq]=${itemId}`,
+        axiosConfig
+      )
       .then(({ data }) => {
         console.log("reservations: ", data.data);
 
@@ -113,25 +119,38 @@ const ModalReservaiton = () => {
     setEndDate(end);
   };
 
+  const currentDate = new Date();
+
   return (
     <Modal size="xl" isOpen={true} onClose={() => null} onOverlayClick={handleGoBack}>
       <ModalOverlay />
-      <ModalContent bg="#161618" py={3} m={3}>
-        <ModalHeader>Efetuar Reserva</ModalHeader>
-        <ModalBody as={Flex} direction="column" pt={8} rowGap={10}>
+      <ModalContent
+        as="main"
+        bg="#161618"
+        borderWidth={1}
+        borderColor="whiteAlpha.100"
+        py={3}
+        m={3}
+      >
+        <ModalBody as={Flex} direction="column" py={6} px={10} rowGap={10}>
+          <Heading fontSize="xl">Efetuar Reserva</Heading>
           <FormControl>
             <FormLabel size="sm">Data da reserva</FormLabel>
             <DatePicker
+              inline
               excludeDateIntervals={disabledDateRanges}
+              minDate={currentDate}
               selected={startDate}
               onChange={handleChange}
               startDate={startDate}
               endDate={endDate}
               selectsRange
-              inline
+              style={{
+                backgroundColor: "#161618",
+              }}
             />
           </FormControl>
-          <Flex direction="column" rowGap={2} mb={10}>
+          <Flex direction="column" rowGap={2}>
             <Heading fontSize="sm">Visitantes</Heading>
             <Flex align="center" columnGap={2} mb={5}>
               <Input value={value} onChange={(e) => setValue(e.target.value)} />
@@ -166,14 +185,22 @@ const ModalReservaiton = () => {
               </VStack>
             )}
           </Flex>
-          <Stack direction={["column", "row"]} alignSelf={["stretch", "flex-end"]}>
-            <Button w="100%" onClick={handleGoBack}>
+          <Flex align="center" columnGap={2}>
+            <Button flex={1} fontWeight="normal" rounded="base" onClick={handleGoBack}>
               Cancelar
             </Button>
-            <Button w="100%" colorScheme="purple" bg="#5644d3" color="white" onClick={handleSubmit}>
+            <Button
+              flex={1}
+              fontWeight="normal"
+              rounded="base"
+              colorScheme="purple"
+              bg="#5644d3"
+              color="white"
+              onClick={handleSubmit}
+            >
               Reservar
             </Button>
-          </Stack>
+          </Flex>
         </ModalBody>
       </ModalContent>
     </Modal>

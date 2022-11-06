@@ -20,7 +20,7 @@ const Router = () => {
         }
       >
         <Route
-          path="reservation"
+          path="reservation/:id"
           element={
             <PrivateElement>
               <ModalReservaiton />

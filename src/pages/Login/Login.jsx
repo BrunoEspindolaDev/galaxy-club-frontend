@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "services/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import spaceImage from "assets/images/space.jpg";
@@ -27,8 +27,8 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:1337/api/auth/local", {
+    api
+      .post("auth/local", {
         identifier,
         password,
       })

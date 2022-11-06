@@ -1,12 +1,9 @@
-import axios from "axios";
+import api from "services/api";
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import {
-  Heading,
   Text,
   Flex,
-  Box,
-  Stack,
   Tabs,
   TabList,
   TabPanels,
@@ -17,50 +14,8 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import Navbar from "components/Navbar";
-
-const Items = ({ title, items }) => {
-  const navigate = useNavigate();
-  return (
-    <Flex as="section" direction="column" rowGap={5}>
-      {items && (
-        <Flex direction="column" rowGap={8}>
-          <Heading fontSize="sm" display={["none", "block"]}>
-            {title}
-          </Heading>
-          <Stack direction={["column", "row"]} align="center" wrap="wrap" columnGap={7} rowGap={12}>
-            {items.map(({ id, attributes }) => (
-              <Flex
-                key={id}
-                w="100%"
-                maxW="326px"
-                transition="0.3s"
-                direction="column"
-                rowGap={2}
-                cursor="pointer"
-                _hover={{ opacity: 0.5 }}
-                onClick={() => navigate("reservation")}
-              >
-                <Box
-                  mb={2}
-                  h="260px"
-                  rounded="md"
-                  backgroundImage={`url(https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png)`}
-                  backgroundSize="cover"
-                  backgroundPosition="center"
-                  backgroundRepeat="no-repeat"
-                />
-                <Heading fontSize="sm">{attributes.name}</Heading>
-                <Text fontSize="xs" color="whiteAlpha.700">
-                  {attributes.description}
-                </Text>
-              </Flex>
-            ))}
-          </Stack>
-        </Flex>
-      )}
-    </Flex>
-  );
-};
+import ReservationItems from "components/ReservationItems";
+import axios from "axios";
 
 const Home = () => {
   const [isMobile] = useMediaQuery("(max-width: 563px)");
@@ -81,17 +36,8 @@ const Home = () => {
         });
       };
 
-      const axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      };
-
       axios
-        .all([
-          axios.get("http://localhost:1337/api/places", axiosConfig),
-          axios.get("http://localhost:1337/api/equipaments", axiosConfig),
-        ])
+        .all([api.get("places?populate=*"), api.get("equipaments?populate=*")])
         .then(
           axios.spread((placesRes, equipamentsRes) => {
             console.log("Res: ", placesRes);
@@ -103,6 +49,8 @@ const Home = () => {
         .finally(() => setIsLoading(false));
     }
   }, [places, equipaments]);
+
+  console.log("Places: ", places);
 
   return (
     <Flex minH="100vh" direction="column" bg="#161618">
@@ -123,24 +71,24 @@ const Home = () => {
             <Tabs colorScheme="purple">
               <TabList>
                 <Tab fontSize="xs" fontWeight="bold" textTransform="uppercase">
-                  Áreas do Clube
+                  Equipamentos
                 </Tab>
                 <Tab fontSize="xs" fontWeight="bold" textTransform="uppercase">
-                  Equipamentos
+                  Áreas do Clube
                 </Tab>
               </TabList>
               <TabPanels py={8} px={0}>
                 <TabPanel px={0}>
-                  <Items title="Áreas do Clube" items={places} />
-                  <Items title="Equipamentos" items={equipaments} />
+                  <ReservationItems title="Equipamentos" data={equipaments} />
+                  <ReservationItems title="Áreas do Clube" data={places} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
           )}
           {!isMobile && (
             <>
-              <Items title="Áreas do Clube" items={places} />
-              <Items title="Equipamentos" items={equipaments} />
+              <ReservationItems title="Equipamentos" data={equipaments} />
+              <ReservationItems title="Áreas do Clube" data={places} />
             </>
           )}
           {isLoading && (
