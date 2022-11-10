@@ -16,10 +16,10 @@ import {
 import Navbar from "components/Navbar";
 import ReservationItems from "components/ReservationItems";
 import axios from "axios";
+import Weather from "components/Weather";
 
 const Home = () => {
-  const [isMobile] = useMediaQuery("(max-width: 563px)");
-
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
   const [places, setPlaces] = useState(null);
   const [equipaments, setEquipaments] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,36 +58,58 @@ const Home = () => {
     }
   }, [places, equipaments]);
 
-  console.log("Places: ", places);
-
   return (
     <Flex minH="100vh" direction="column" bg="#161618">
       <Navbar />
-      <Flex flex={1} as="main" direction="column" align="center" p={[8, 0]}>
+      <Weather />
+      <Flex flex={1} as="main" direction="column" align="center">
         <Flex
           as="section"
           alignSelf="center"
           direction="column"
           w="100%"
-          maxW="1100px"
+          maxW="1200px"
           rounded="xl"
-          rowGap="82px"
-          pt={[0, 14]}
-          pb={[5, 14]}
+          rowGap={0}
         >
+          {isLoading && (
+            <Flex direction="column" align="center" rowGap={4}>
+              <Spinner />
+              <Text as="h5" fontSize="sm">
+                Carregando...
+              </Text>
+            </Flex>
+          )}
           {isMobile && (
-            <Tabs colorScheme="purple">
-              <TabList>
-                <Tab fontSize="xs" fontWeight="bold" textTransform="uppercase">
+            <Tabs
+              display="flex"
+              colorScheme="purple"
+              flexDirection="column"
+              variant="solid-rounded"
+            >
+              <TabList alignSelf="center" pt={12} pb={1}>
+                <Tab
+                  fontSize="xs"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  _selected={{ bg: "white", color: "gray.900" }}
+                >
                   Equipamentos
                 </Tab>
-                <Tab fontSize="xs" fontWeight="bold" textTransform="uppercase">
+                <Tab
+                  fontSize="xs"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  _selected={{ bg: "white", color: "gray.900" }}
+                >
                   Áreas do Clube
                 </Tab>
               </TabList>
-              <TabPanels py={8} px={0}>
-                <TabPanel px={0}>
+              <TabPanels p={0}>
+                <TabPanel p={0}>
                   <ReservationItems title="Equipamentos" data={equipaments} />
+                </TabPanel>
+                <TabPanel p={0}>
                   <ReservationItems title="Áreas do Clube" data={places} />
                 </TabPanel>
               </TabPanels>
@@ -98,14 +120,6 @@ const Home = () => {
               <ReservationItems title="Equipamentos" data={equipaments} />
               <ReservationItems title="Áreas do Clube" data={places} />
             </>
-          )}
-          {isLoading && (
-            <Flex direction="column" align="center" rowGap={4}>
-              <Spinner />
-              <Text as="h5" fontSize="sm">
-                Carregando...
-              </Text>
-            </Flex>
           )}
         </Flex>
       </Flex>

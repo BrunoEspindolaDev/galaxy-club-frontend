@@ -50,6 +50,7 @@ const Navbar = () => {
             <Button
               size="sm"
               bg="transparent"
+              fontWeight="medium"
               isActive={isHomeActive}
               onClick={() => navigate("/home")}
             >
@@ -58,6 +59,7 @@ const Navbar = () => {
             <Button
               size="sm"
               bg="transparent"
+              fontWeight="medium"
               isActive={isReservationsActive}
               onClick={() => navigate("/reservations")}
             >
@@ -66,12 +68,13 @@ const Navbar = () => {
             <Button
               size="sm"
               bg="transparent"
+              fontWeight="medium"
               isActive={isProfileActive}
               onClick={() => navigate("/profile")}
             >
               Perfil
             </Button>
-            <Button size="sm" bg="transparent" onClick={handleLogout}>
+            <Button size="sm" bg="transparent" fontWeight="medium" onClick={handleLogout}>
               Sair
             </Button>
           </ButtonGroup>
@@ -87,6 +90,7 @@ const Navbar = () => {
               <MenuItem onClick={() => navigate("/home")}>Início</MenuItem>
               <MenuItem onClick={() => navigate("/reservations")}>Reservas</MenuItem>
               <MenuItem onClick={() => navigate("/profile")}>Perfil</MenuItem>
+              <MenuItem onClick={handleLogout}>Sair</MenuItem>
             </MenuList>
           </Menu>
         )}

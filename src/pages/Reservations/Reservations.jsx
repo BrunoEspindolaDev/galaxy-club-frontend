@@ -1,15 +1,4 @@
-import {
-  Heading,
-  Text,
-  Flex,
-  Box,
-  VStack,
-  ButtonGroup,
-  Button,
-  Spacer,
-  Stack,
-  StackDivider,
-} from "@chakra-ui/react";
+import { Heading, Text, Flex, Box, VStack, ButtonGroup, Button, Stack } from "@chakra-ui/react";
 import Navbar from "components/Navbar";
 
 const Reservations = () => {

@@ -1,27 +1,29 @@
-import { Flex, Heading, Text, Stack, Box } from "@chakra-ui/react";
+import { Flex, Heading, Text, Box, useMediaQuery } from "@chakra-ui/react";
 
 const ReservationItems = ({ title, data }) => {
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
   return (
-    <Flex as="section" direction="column" rowGap={5}>
+    <Flex as="section" alignSelf="center" direction="column" rowGap={5} p={isMobile ? 6 : 10}>
       {data && (
         <Flex direction="column" rowGap={8}>
           <Heading
             fontSize="sm"
             fontWeight="medium"
             textTransform="uppercase"
-            display={["none", "block"]}
+            display={isMobile ? "none" : "block"}
           >
             {title}
           </Heading>
-          <Stack direction={["column", "row"]} align="center" wrap="wrap" columnGap={7} rowGap={12}>
+          <Flex direction={["column", "row"]} align="center" wrap="wrap" gap={[6, 6, 6]}>
             {data.map(({ id, attributes }) => (
               <Flex
                 key={id}
                 w="100%"
-                maxW="326px"
+                maxW={["100%", "100%", "326px", "326px"]}
                 transition="0.3s"
                 direction="column"
                 bg="whiteAlpha.50"
+                shadow="xl"
                 rounded="2xl"
                 cursor="pointer"
                 overflow="hidden"
@@ -45,7 +47,7 @@ const ReservationItems = ({ title, data }) => {
                 </Flex>
               </Flex>
             ))}
-          </Stack>
+          </Flex>
         </Flex>
       )}
     </Flex>
