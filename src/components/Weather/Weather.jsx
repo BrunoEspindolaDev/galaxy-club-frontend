@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { FiCircle } from "react-icons/fi";
 import { Heading, Text, Flex, Icon } from "@chakra-ui/react";
 
+const apiKey = "c4d2eb8a77b442f12e2fee1efe859243";
+
 const Weather = () => {
   const [weather, setWeather] = useState(null);
 
@@ -11,7 +13,7 @@ const Weather = () => {
       ({ coords: { latitude, longitude } }) => {
         axios
           .get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPEN_WEATHER_TOKEN}&units=metric`
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
           )
           .then(({ data }) => setWeather({ ...data.main, ...data.coord }))
           .catch(() => null);
