@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/galaxy-club-frontend/static/css/main.912276da.css",
-    "main.js": "/galaxy-club-frontend/static/js/main.4694b123.js",
+    "main.js": "/galaxy-club-frontend/static/js/main.b834c377.js",
     "static/media/space.jpg": "/galaxy-club-frontend/static/media/space.90d0ffcfe812001cf9ad.jpg",
     "static/media/ubuntu-all-300-normal.woff": "/galaxy-club-frontend/static/media/ubuntu-all-300-normal.e705c43e143451f893be.woff",
     "static/media/ubuntu-all-400-normal.woff": "/galaxy-club-frontend/static/media/ubuntu-all-400-normal.8629f83ad2c45e75a914.woff",
@@ -70,10 +70,10 @@
     "static/media/logo.svg": "/galaxy-club-frontend/static/media/logo.7a3363299e5a39bc0a7213227d50b3a4.svg",
     "index.html": "/galaxy-club-frontend/index.html",
     "main.912276da.css.map": "/galaxy-club-frontend/static/css/main.912276da.css.map",
-    "main.4694b123.js.map": "/galaxy-club-frontend/static/js/main.4694b123.js.map"
+    "main.b834c377.js.map": "/galaxy-club-frontend/static/js/main.b834c377.js.map"
   },
   "entrypoints": [
     "static/css/main.912276da.css",
-    "static/js/main.4694b123.js"
+    "static/js/main.b834c377.js"
   ]
 }
