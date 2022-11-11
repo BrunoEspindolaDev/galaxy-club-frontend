@@ -24,7 +24,7 @@ const Weather = () => {
 
   if (weather) {
     return (
-      <Flex zIndex="dropdown" align="center" direction="column" bg="purple.500" py={2} px={5}>
+      <Flex align="center" direction="column" bg="purple.500" py={2} px={5}>
         <Flex alignSelf="center" align="center" columnGap={3}>
           <Heading fontSize="sm" fontWeight="semibold">
             {weather.temp} °C

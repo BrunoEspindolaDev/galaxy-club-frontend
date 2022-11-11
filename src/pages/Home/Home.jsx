@@ -58,6 +58,8 @@ const Home = () => {
     }
   }, [places, equipaments, toast]);
 
+  const showData = !isLoading && equipaments && places;
+
   return (
     <Flex minH="100vh" direction="column" bg="#161618">
       <Navbar />
@@ -80,7 +82,7 @@ const Home = () => {
               </Text>
             </Flex>
           )}
-          {isMobile && (
+          {showData && isMobile && (
             <Tabs
               display="flex"
               colorScheme="purple"
@@ -115,7 +117,7 @@ const Home = () => {
               </TabPanels>
             </Tabs>
           )}
-          {!isMobile && (
+          {showData && !isMobile && (
             <>
               <ReservationItems title="Equipamentos" data={equipaments} />
               <ReservationItems title="Áreas do Clube" data={places} />
