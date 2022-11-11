@@ -88,8 +88,9 @@ const Login = () => {
               <Icon as={FiUser} w="18px" h="18px" color="white" />
             </InputLeftElement>
             <Input
-              placeholder="Usuário"
               value={identifier}
+              placeholder="Usuário"
+              focusBorderColor="purple.500"
               onChange={(e) => setIdentifier(e.target.value)}
             />
           </InputGroup>
@@ -101,6 +102,7 @@ const Login = () => {
               type="password"
               value={password}
               placeholder="Senha"
+              focusBorderColor="purple.500"
               onChange={(e) => setPassword(e.target.value)}
             />
           </InputGroup>

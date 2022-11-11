@@ -56,24 +56,24 @@ const Home = () => {
         .catch(handleError)
         .finally(() => setIsLoading(false));
     }
-  }, [places, equipaments]);
+  }, [places, equipaments, toast]);
 
   return (
     <Flex minH="100vh" direction="column" bg="#161618">
       <Navbar />
       <Weather />
-      <Flex flex={1} as="main" direction="column" align="center">
+      <Flex flex={1} as="main" direction="column">
         <Flex
           as="section"
-          alignSelf="center"
-          direction="column"
           w="100%"
           maxW="1200px"
+          alignSelf="center"
+          direction="column"
           rounded="xl"
           rowGap={0}
         >
           {isLoading && (
-            <Flex direction="column" align="center" rowGap={4}>
+            <Flex direction="column" align="center" rowGap={4} py={10}>
               <Spinner />
               <Text as="h5" fontSize="sm">
                 Carregando...

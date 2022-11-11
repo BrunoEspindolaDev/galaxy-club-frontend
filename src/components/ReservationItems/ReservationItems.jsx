@@ -3,7 +3,14 @@ import { Flex, Heading, Text, Box, useMediaQuery } from "@chakra-ui/react";
 const ReservationItems = ({ title, data }) => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   return (
-    <Flex as="section" alignSelf="center" direction="column" rowGap={5} p={isMobile ? 6 : 10}>
+    <Flex
+      w="100%"
+      rowGap={5}
+      as="section"
+      alignSelf="center"
+      direction="column"
+      p={isMobile ? 6 : 10}
+    >
       {data && (
         <Flex direction="column" rowGap={8}>
           <Heading
@@ -14,7 +21,7 @@ const ReservationItems = ({ title, data }) => {
           >
             {title}
           </Heading>
-          <Flex direction={["column", "row"]} align="center" wrap="wrap" gap={[6, 6, 6]}>
+          <Flex direction={["column", "row"]} align="center" wrap="wrap" gap={[6, 6, 8]}>
             {data.map(({ id, attributes }) => (
               <Flex
                 key={id}
