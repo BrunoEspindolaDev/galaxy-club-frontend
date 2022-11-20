@@ -38,7 +38,7 @@ const Reservations = () => {
                     <Box
                       w={["100%", "100%", "90px"]}
                       h={["160px", "160px", "90px"]}
-                      rounded="md"
+                      rounded="50%"
                       backgroundImage="url(https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)"
                       backgroundSize="cover"
                       backgroundPosition="center"

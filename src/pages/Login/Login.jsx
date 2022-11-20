@@ -22,11 +22,14 @@ const Login = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     api
       .post("auth/local", {
         identifier,
@@ -43,7 +46,8 @@ const Login = () => {
           description: "Credênciais incorretas!",
           duration: 500,
         });
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -106,7 +110,14 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </InputGroup>
-          <Button type="submit" colorScheme="purple" bg="#5644d3" color="white" mt={3}>
+          <Button
+            type="submit"
+            isLoading={isLoading}
+            colorScheme="purple"
+            bg="#5644d3"
+            color="white"
+            mt={3}
+          >
             Entrar
           </Button>
         </chakra.form>

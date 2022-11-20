@@ -123,7 +123,7 @@ const ModalReservaiton = () => {
 
   return (
     <Modal size="xl" isOpen={true} onClose={() => null} onOverlayClick={handleGoBack}>
-      <ModalOverlay />
+      <ModalOverlay onOverlayClick={() => navigate("/home")} />
       <ModalContent
         as="main"
         bg="#161618"

@@ -1,9 +1,14 @@
 import { Flex, Heading, Text, Box, useMediaQuery } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+const MotionFlex = motion(Flex);
 
 const ReservationItems = ({ title, data }) => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   return (
-    <Flex
+    <MotionFlex
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       w="100%"
       rowGap={5}
       as="section"
@@ -57,7 +62,7 @@ const ReservationItems = ({ title, data }) => {
           </Flex>
         </Flex>
       )}
-    </Flex>
+    </MotionFlex>
   );
 };
 
