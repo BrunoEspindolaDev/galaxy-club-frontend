@@ -1,6 +1,10 @@
-import api from "services/api";
+import axios from "axios";
+import api, { config } from "services/api";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import Navbar from "components/Navbar";
+import ReservationList from "components/ReservationList";
+import Weather from "components/Weather";
 import {
   Text,
   Flex,
@@ -13,10 +17,6 @@ import {
   useToast,
   Spinner,
 } from "@chakra-ui/react";
-import Navbar from "components/Navbar";
-import ReservationItems from "components/ReservationItems";
-import axios from "axios";
-import Weather from "components/Weather";
 
 const Home = () => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -29,31 +29,20 @@ const Home = () => {
     if (!places && !equipaments) {
       setIsLoading(true);
 
-      const axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      };
-
-      const handleError = () => {
-        return toast({
-          status: "error",
-          description: "Comportamento inesperado, tente novamente mais tarde",
-        });
-      };
-
       axios
-        .all([
-          api.get("places?populate=*", axiosConfig),
-          api.get("equipaments?populate=*", axiosConfig),
-        ])
+        .all([api.get("places?populate=*", config), api.get("equipaments?populate=*", config)])
         .then(
           axios.spread((placesRes, equipamentsRes) => {
             setPlaces(placesRes.data.data);
             setEquipaments(equipamentsRes.data.data);
           })
         )
-        .catch(handleError)
+        .catch(() => {
+          toast({
+            status: "error",
+            description: "Comportamento inesperado, tente novamente mais tarde",
+          });
+        })
         .finally(() => setIsLoading(false));
     }
   }, [places, equipaments, toast]);
@@ -109,18 +98,18 @@ const Home = () => {
               </TabList>
               <TabPanels p={0}>
                 <TabPanel p={0}>
-                  <ReservationItems title="Equipamentos" data={equipaments} />
+                  <ReservationList type="equipament" title="Equipamentos" data={equipaments} />
                 </TabPanel>
                 <TabPanel p={0}>
-                  <ReservationItems title="Áreas do Clube" data={places} />
+                  <ReservationList type="place" title="Áreas do Clube" data={places} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
           )}
           {showData && !isMobile && (
             <>
-              <ReservationItems title="Equipamentos" data={equipaments} />
-              <ReservationItems title="Áreas do Clube" data={places} />
+              <ReservationList type="equipament" title="Equipamentos" data={equipaments} />
+              <ReservationList type="place" title="Áreas do Clube" data={places} />
             </>
           )}
         </Flex>

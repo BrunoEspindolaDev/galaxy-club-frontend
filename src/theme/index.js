@@ -43,6 +43,7 @@ const theme = extendTheme({
     Button: {
       variants: {
         solid: {
+          rounded: "full",
           _hover: {
             bg: "whiteAlpha.100",
           },

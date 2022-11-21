@@ -5,7 +5,6 @@ import Login from "pages/Login";
 import Home from "pages/Home";
 import Reservations from "pages/Reservations";
 import Profile from "pages/Profile";
-import ModalReservaiton from "pages/ModalReservation/ModalReservation";
 
 const Router = () => {
   return (
@@ -18,16 +17,7 @@ const Router = () => {
             <Home />
           </PrivateElement>
         }
-      >
-        <Route
-          path="reservation/:id"
-          element={
-            <PrivateElement>
-              <ModalReservaiton />
-            </PrivateElement>
-          }
-        />
-      </Route>
+      />
       <Route
         path="/reservations"
         element={
