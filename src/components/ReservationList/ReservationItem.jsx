@@ -6,6 +6,7 @@ const MotionFlex = motion(Flex);
 
 const ReservationItem = ({ item, type }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex
       key={item.id}

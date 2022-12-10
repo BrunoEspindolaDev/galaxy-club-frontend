@@ -92,6 +92,7 @@ const Login = () => {
               <Icon as={FiUser} w="18px" h="18px" color="white" />
             </InputLeftElement>
             <Input
+              rounded="full"
               value={identifier}
               placeholder="Usuário"
               focusBorderColor="purple.500"
@@ -103,6 +104,7 @@ const Login = () => {
               <Icon as={FiKey} w="18px" h="18px" color="white" />
             </InputLeftElement>
             <Input
+              rounded="full"
               type="password"
               value={password}
               placeholder="Senha"

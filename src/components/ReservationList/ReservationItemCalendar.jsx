@@ -4,7 +4,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiChevronLeft } from "react-icons/fi";
 import DatePicker from "react-datepicker";
-import { Flex, Heading, Button, useToast, Icon, IconButton } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Button,
+  useToast,
+  Icon,
+  IconButton,
+  useOutsideClick,
+} from "@chakra-ui/react";
+import { useRef } from "react";
 
 const MotionFlex = motion(Flex);
 
@@ -13,8 +22,19 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
+  const calendarContainerRef = useRef();
   const navigate = useNavigate();
   const toast = useToast();
+
+  useOutsideClick({ ref: calendarContainerRef, handler: () => onCancel() });
+
+  const formatDate = (date) => {
+    const capturedDate = new Date(date);
+    console.log("startDate: ", capturedDate.getDay());
+    return new Date(
+      Date.UTC(capturedDate.getFullYear(), capturedDate.getMonth(), capturedDate.getDay())
+    );
+  };
 
   const handleSubmit = () => {
     const loggedUser = JSON.parse(localStorage.getItem("user"));
@@ -26,8 +46,8 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
         data: {
           equipament: item.id,
           users_permissions_user: loggedUser.id,
-          start_date: startDate,
-          end_date: endDate,
+          start_date: formatDate(startDate),
+          end_date: formatDate(endDate),
           is_active: true,
           guests: "",
         },
@@ -92,6 +112,7 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
   const currentDate = new Date();
   return (
     <MotionFlex
+      ref={calendarContainerRef}
       position="relative"
       initial={{ left: -200 }}
       animate={{ left: 0 }}
