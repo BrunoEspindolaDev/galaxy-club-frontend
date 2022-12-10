@@ -3,7 +3,7 @@ import PrivateElement from "components/PrivateElement";
 
 import Login from "pages/Login";
 import Home from "pages/Home";
-import Reservations from "pages/Reservations";
+import Reservation from "pages/Reservation";
 import Profile from "pages/Profile";
 
 const Router = () => {
@@ -22,7 +22,7 @@ const Router = () => {
         path="/reservations"
         element={
           <PrivateElement>
-            <Reservations />
+            <Reservation />
           </PrivateElement>
         }
       />

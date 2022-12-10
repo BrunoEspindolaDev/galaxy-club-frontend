@@ -23,7 +23,7 @@ const Profile = () => {
             alignSelf="center"
             direction="column"
             w="100%"
-            maxW="1100px"
+            maxW="999px"
             rounded="xl"
             rowGap={10}
             px={[8, 10]}

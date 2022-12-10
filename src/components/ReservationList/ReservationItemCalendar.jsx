@@ -26,18 +26,13 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  useOutsideClick({ ref: calendarContainerRef, handler: () => onCancel() });
-
-  const formatDate = (date) => {
-    const capturedDate = new Date(date);
-    console.log("startDate: ", capturedDate.getDay());
-    return new Date(
-      Date.UTC(capturedDate.getFullYear(), capturedDate.getMonth(), capturedDate.getDay())
-    );
-  };
+  useOutsideClick({ ref: calendarContainerRef, handler: () => !isLoading && onCancel() });
 
   const handleSubmit = () => {
     const loggedUser = JSON.parse(localStorage.getItem("user"));
+
+    console.log("Start: ", startDate);
+    console.log("End: ", endDate);
 
     if (loggedUser) {
       setIsLoading(true);
@@ -46,8 +41,8 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
         data: {
           equipament: item.id,
           users_permissions_user: loggedUser.id,
-          start_date: formatDate(startDate),
-          end_date: formatDate(endDate),
+          start_date: startDate,
+          end_date: endDate,
           is_active: true,
           guests: "",
         },
@@ -105,6 +100,7 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
 
   const handleChange = (dates) => {
     const [start, end] = dates;
+
     setStartDate(start);
     setEndDate(end);
   };
@@ -130,9 +126,10 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
       </Heading>
       <DatePicker
         inline
+        dateFormat="L"
         excludeDateIntervals={disabledDateRanges}
         minDate={currentDate}
-        selected={startDate}
+        selected={null}
         onChange={handleChange}
         startDate={startDate}
         endDate={endDate}
