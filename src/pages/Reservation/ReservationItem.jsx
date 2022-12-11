@@ -4,7 +4,7 @@ const formatDate = (date) => {
   const formattedDate = new Date(date);
   return formattedDate.toLocaleDateString("pt-br", {
     day: "numeric",
-    month: "short",
+    month: "numeric",
     year: "numeric",
   });
 };
@@ -42,7 +42,7 @@ const ReservationItem = ({ id, name, image, endDate, startDate, isLoading, onDel
             {name}
           </Heading>
           <Text fontSize={["xs", "sm"]} color="whiteAlpha.700">
-            {formattedStartDate} até {formattedEndDate}
+            De {formattedStartDate} até {formattedEndDate}
           </Text>
         </Box>
       </Stack>

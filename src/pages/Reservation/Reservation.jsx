@@ -20,7 +20,7 @@ const Reservation = () => {
       setIsLoadingFind(true);
       instance
         .get(
-          `reservations?filters[users_permissions_user][id][$eq]=${loggedUser.id}&populate=equipament.image`,
+          `reservations?filters[users_permissions_user][id][$eq]=${loggedUser.id}&populate=equipament.image&populate=place.image`,
           config
         )
         .then(({ data }) => setReservations(data.data))
@@ -71,17 +71,22 @@ const Reservation = () => {
             <ReservationList>
               {reservations.map((reservation) => {
                 const { id, attributes } = reservation;
-                const equipament = attributes.equipament.data.attributes;
+                const equipament = attributes.equipament.data?.attributes;
+                const place = attributes.place.data?.attributes;
 
                 return (
                   <ReservationItem
                     id={id}
                     key={id}
-                    name={equipament.name}
+                    name={!!equipament ? equipament.name : place.name}
                     isLoading={isLoadingDelete}
                     endDate={attributes.end_date}
                     startDate={attributes.start_date}
-                    image={equipament.image.data.attributes.url}
+                    image={
+                      !!equipament
+                        ? equipament.image.data.attributes.url
+                        : place.image.data.attributes.url
+                    }
                     onDelete={handleDelete}
                   />
                 );

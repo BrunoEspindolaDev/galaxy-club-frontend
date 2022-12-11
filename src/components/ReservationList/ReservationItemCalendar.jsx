@@ -1,4 +1,5 @@
 import instance, { config } from "services/api";
+import useSubscription from "hooks/useSubscription";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +13,11 @@ import {
   Icon,
   IconButton,
   useOutsideClick,
+  Center,
+  Spinner,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import moment, { isAfter } from "moment";
-import useSubscription from "hooks/useSubscription";
+import moment from "moment";
 
 const MotionFlex = motion(Flex);
 
@@ -54,7 +56,7 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
       },
     };
 
-    if (type === "equipment") {
+    if (type === "equipament") {
       body.data.equipament = item.id;
     } else {
       body.data.place = item.id;
@@ -74,6 +76,7 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     if (item) {
       const url =
         type === "equipament"
@@ -105,7 +108,8 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
             description: "Comportamento inesperado. Por favor, tente novamente!",
             duration: 500,
           });
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, [item]);
 
@@ -134,20 +138,24 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
       <Heading fontSize="lg" fontWeight="semibold" textAlign="center" mt={1} mb={4}>
         Efetuar Reserva
       </Heading>
-      <DatePicker
-        inline
-        dateFormat="L"
-        excludeDateIntervals={disabledDateRanges}
-        minDate={new Date()}
-        selected={null}
-        onChange={handleChange}
-        startDate={startDate}
-        endDate={endDate}
-        selectsRange
-        style={{
-          backgroundColor: "#161618",
-        }}
-      />
+      {!isLoading && (
+        <DatePicker
+          inline
+          dateFormat="L"
+          excludeDateIntervals={disabledDateRanges}
+          minDate={new Date()}
+          selected={null}
+          onChange={handleChange}
+          startDate={startDate}
+          endDate={endDate}
+          selectsRange
+        />
+      )}
+      {isLoading && (
+        <Center rounded="xl" bg="#2a2a2c" w="289px" h="269px">
+          <Spinner />
+        </Center>
+      )}
       <Button
         mt={2}
         isLoading={isLoading}
