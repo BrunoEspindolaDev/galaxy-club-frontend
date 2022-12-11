@@ -46,7 +46,6 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
     setIsLoading(true);
     const body = {
       data: {
-        equipament: item.id,
         users_permissions_user: storagedUser.id,
         start_date: startDate,
         end_date: endDate,
