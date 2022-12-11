@@ -79,7 +79,7 @@ const Reservation = () => {
                     key={id}
                     name={equipament.name}
                     isLoading={isLoadingDelete}
-                    endData={attributes.end_date}
+                    endDate={attributes.end_date}
                     startDate={attributes.start_date}
                     image={equipament.image.data.attributes.url}
                     onDelete={handleDelete}

@@ -1,3 +1,4 @@
+import useSubscription from "hooks/useSubscription";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as Logo } from "assets/svg/logo.svg";
 import { FiMenu } from "react-icons/fi";
@@ -13,12 +14,14 @@ import {
   MenuItem,
   IconButton,
   useMediaQuery,
+  Badge,
 } from "@chakra-ui/react";
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 563px)");
+  const { subscriptionRemainingInDays } = useSubscription();
 
   const isHomeActive = pathname.includes("/home");
   const isReservationsActive = pathname.includes("/reservations");
@@ -41,12 +44,25 @@ const Navbar = () => {
       >
         <Flex align="center" columnGap={2}>
           <Icon as={Logo} w="24px" h="24px" />
-          <Heading as="h5" fontSize="lg" color="white">
-            GalaxyClub
-          </Heading>
+          <Flex align="center" columnGap={3}>
+            <Heading as="h5" fontSize="lg" color="white">
+              GalaxyClub
+            </Heading>
+            <Badge
+              px={3}
+              display="flex"
+              alignItens="center"
+              justifyContent="center"
+              rounded="full"
+              colorScheme="purple"
+            >
+              {subscriptionRemainingInDays} dias para rematricula
+            </Badge>
+          </Flex>
         </Flex>
+
         {!isMobile && (
-          <ButtonGroup>
+          <ButtonGroup as={Flex} align="center">
             <Button
               size="sm"
               bg="transparent"

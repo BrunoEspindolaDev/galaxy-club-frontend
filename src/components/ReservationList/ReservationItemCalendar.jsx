@@ -14,6 +14,8 @@ import {
   useOutsideClick,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import moment, { isAfter } from "moment";
+import useSubscription from "hooks/useSubscription";
 
 const MotionFlex = motion(Flex);
 
@@ -26,40 +28,50 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
   const navigate = useNavigate();
   const toast = useToast();
 
+  const { subscriptionEnd } = useSubscription();
+
   useOutsideClick({ ref: calendarContainerRef, handler: () => !isLoading && onCancel() });
 
   const handleSubmit = () => {
-    const loggedUser = JSON.parse(localStorage.getItem("user"));
-
-    console.log("Start: ", startDate);
-    console.log("End: ", endDate);
-
-    if (loggedUser) {
-      setIsLoading(true);
-
-      const body = {
-        data: {
-          equipament: item.id,
-          users_permissions_user: loggedUser.id,
-          start_date: startDate,
-          end_date: endDate,
-          is_active: true,
-          guests: "",
-        },
-      };
-
-      instance
-        .post("reservations", body, config)
-        .then(() => navigate("/reservations"))
-        .catch(() => {
-          toast({
-            status: "error",
-            description: "Comportamento inesperado. Por favor, tente novamente!",
-            duration: 500,
-          });
-        })
-        .finally(() => setIsLoading(false));
+    const storagedUser = JSON.parse(localStorage.getItem("user"));
+    if (moment(endDate).isAfter(subscriptionEnd)) {
+      return toast({
+        status: "error",
+        description:
+          "A data final da reserva deve estar dentro do périodo válido da sua matrícula.",
+        duration: 4000,
+      });
     }
+
+    setIsLoading(true);
+    const body = {
+      data: {
+        equipament: item.id,
+        users_permissions_user: storagedUser.id,
+        start_date: startDate,
+        end_date: endDate,
+        is_active: true,
+        guests: "",
+      },
+    };
+
+    if (type === "equipment") {
+      body.data.equipament = item.id;
+    } else {
+      body.data.place = item.id;
+    }
+
+    instance
+      .post("reservations", body, config)
+      .then(() => navigate("/reservations"))
+      .catch(() => {
+        toast({
+          status: "error",
+          description: "Comportamento inesperado. Por favor, tente novamente!",
+          duration: 500,
+        });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
@@ -105,7 +117,6 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
     setEndDate(end);
   };
 
-  const currentDate = new Date();
   return (
     <MotionFlex
       ref={calendarContainerRef}
@@ -128,14 +139,13 @@ const ReservationItemCalendar = ({ item, type, onCancel }) => {
         inline
         dateFormat="L"
         excludeDateIntervals={disabledDateRanges}
-        minDate={currentDate}
+        minDate={new Date()}
         selected={null}
         onChange={handleChange}
         startDate={startDate}
         endDate={endDate}
         selectsRange
         style={{
-          width: "400px",
           backgroundColor: "#161618",
         }}
       />

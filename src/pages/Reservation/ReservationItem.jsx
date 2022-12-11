@@ -1,6 +1,18 @@
 import { Heading, Text, Box, Button, Stack } from "@chakra-ui/react";
 
-const ReservationItem = ({ id, name, image, endData, startDate, isLoading, onDelete }) => {
+const formatDate = (date) => {
+  const formattedDate = new Date(date);
+  return formattedDate.toLocaleDateString("pt-br", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+const ReservationItem = ({ id, name, image, endDate, startDate, isLoading, onDelete }) => {
+  const formattedStartDate = formatDate(startDate);
+  const formattedEndDate = formatDate(endDate);
+
   return (
     <Stack
       key={id}
@@ -30,7 +42,7 @@ const ReservationItem = ({ id, name, image, endData, startDate, isLoading, onDel
             {name}
           </Heading>
           <Text fontSize={["xs", "sm"]} color="whiteAlpha.700">
-            {startDate} até {endData}
+            {formattedStartDate} até {formattedEndDate}
           </Text>
         </Box>
       </Stack>
